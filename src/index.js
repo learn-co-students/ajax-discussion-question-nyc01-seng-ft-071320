@@ -1,6 +1,31 @@
-const fullname = document.getElementById("fullname");
-console.log("CONTENT NOT YET LOADED!", fullname); //what will fullname evaluate to?
+document.addEventListener('DOMContentLoaded', e => {
+  const clickHandler = () => {
+    document.querySelector("button").addEventListener("click", e => {
+      fetch("https://randomuser.me/api/")
+      .then(resp => resp.json)
+      .then(data => {
+        const user = data.results
+        renderUser(user)
+      })
+    })
+  }
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("CONTENT LOADED!");
-});
+  const renderUser = user => {
+    console.log(user)
+
+    const picture = user.picture.large
+    document.querySelector("#profile_picture").src = picture
+
+
+    const title = user.name.title
+    const firstName = user.name.first
+    const lastName = user.name.last
+
+    document.querySelector('#fullname').textContent = `${title} ${firstName} ${lastName}`
+
+    const email = user.email
+    document.querySelector("#email").textContent = email
+
+  }
+  clickHandler()
+})
